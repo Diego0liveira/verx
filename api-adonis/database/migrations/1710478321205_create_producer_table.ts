@@ -1,7 +1,7 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'producer'
+  protected tableName = 'producers'
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
@@ -27,19 +27,15 @@ export default class extends BaseSchema {
         .defaultTo(this.now())
         .comment('The date and time the record was updated')
       table
+        .bigInteger('location_city_id')
+        .notNullable()
+        .comment('The foreign key referencing the location state')
+      table
         .foreign('location_city_id')
         .references('id')
-        .inTable('location_city')
+        .inTable('location_cities')
         .onDelete('CASCADE')
         .onUpdate('CASCADE')
-        .comment('The city where the farm is located')
-      table
-        .foreign('location_state_id')
-        .references('id')
-        .inTable('location_states')
-        .onDelete('CASCADE')
-        .onUpdate('CASCADE')
-        .comment('The state where the farm is located')
     })
   }
 

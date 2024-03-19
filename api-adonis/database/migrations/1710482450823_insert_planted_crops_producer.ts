@@ -1,7 +1,7 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'producer_planted_crops'
+  protected tableName = 'planted_crops_producer'
 
   async up() {
     await this.insertData([

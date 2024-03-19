@@ -1,7 +1,7 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'location_city'
+  protected tableName = 'location_cities'
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
@@ -17,7 +17,6 @@ export default class extends BaseSchema {
         .inTable('location_states')
         .onDelete('CASCADE')
         .onUpdate('CASCADE')
-        .comment('The foreign key constraint for the location state')
     })
   }
 

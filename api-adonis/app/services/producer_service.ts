@@ -1,121 +1,187 @@
 import Producer from '#models/producer'
 import { inject } from '@adonisjs/core'
-import { HttpContext } from '@adonisjs/core/http'
+import { Exception } from '@adonisjs/core/exceptions'
+import db from '@adonisjs/lucid/services/db'
+import { SimplePaginatorContract } from '@adonisjs/lucid/types/querybuilder'
+import { STATUS_CODES } from 'node:http'
 
 @inject()
 export default class ProducerService {
-  async all() {
+  /**
+   * Get all producers.
+   */
+  async index() {
     return Producer.all()
   }
 
-  async index({ request }: HttpContext) {
-    const { page, limit } = request.all()
+  /**
+   * Get a specific producer by ID.
+   * @param id - The ID of the producer.
+   * @returns The producer object.
+   * @throws Exception if the producer is not found.
+   */
+  async show(id: number): Promise<any> {
+    const producer = await Producer.find(id)
 
-    return Producer.query().paginate(page, limit)
-  }
-
-  async show({ params, response }: HttpContext) {
-    const producer = await Producer.findOrFail(params.id)
-
-    if (!producer.id) {
-      return response.status(404).send({ error: 'Not found' })
+    if (!producer) {
+      throw new Exception('Not found', { status: Number(STATUS_CODES.NOT_FOUND) })
     }
 
-    await producer.load('locationState')
-    await producer.load('locationCity')
     await producer.load('plantedCrops')
+    await producer.load('locationCity', (query) => {
+      query.preload('locationState')
+    })
 
     return producer
   }
 
-  async destroy({ params, response }: HttpContext) {
-    const producer = await Producer.findOrFail(params.id)
+  /**
+   * Delete a producer by ID.
+   * @param id - The ID of the producer.
+   * @throws Exception if the producer is not found.
+   */
+  async destroy(id: number) {
+    const producer = await Producer.find(id)
 
-    if (!producer.id) {
-      return response.status(404).send({ error: 'Not found' })
+    if (!producer) {
+      throw new Exception('Not found', { status: Number(STATUS_CODES.NOT_FOUND) })
     }
 
     await producer.delete()
   }
 
-  async store({ request }: { request: any }) {
-    const data = request.only(['name', 'email', 'phone', 'location_state_id', 'location_city_id'])
-    return Producer.create(data)
+  /**
+   * Create a new producer.
+   * @param payload - The data for the new producer.
+   * @returns The created producer object.
+   */
+  async store(payload: Partial<Producer>): Promise<Producer> {
+    return Producer.create(payload)
   }
 
-  async update({ params, request, response }: HttpContext) {
-    const producer = await Producer.findOrFail(params.id)
+  /**
+   * Update a producer by ID.
+   * @param payload - The updated data for the producer.
+   * @param id - The ID of the producer.
+   * @returns The updated producer object.
+   * @throws Exception if the producer is not found.
+   */
+  async update(payload: Partial<Producer>, id: number): Promise<Producer> {
+    const producer = await Producer.find(id)
 
-    if (!producer.id) {
-      return response.status(404).send({ error: 'Not found' })
+    if (!producer) {
+      throw new Exception('Not found', { status: Number(STATUS_CODES.NOT_FOUND) })
     }
 
-    producer.merge(
-      request.only(['name', 'email', 'phone', 'location_state_id', 'location_city_id'])
-    )
+    producer.merge(payload)
     await producer.save()
 
     return producer
   }
 
-  async search({ request }: HttpContext) {
-    const { page, limit, name, email, phone, locationStateId, locationCityId } = request.all()
+  /**
+   * Search for producers based on filters.
+   * @param filters - The filters to apply to the search.
+   * @returns A paginated list of producers.
+   */
+  async search(filters: any): Promise<SimplePaginatorContract<Producer[]>> {
+    const {
+      page,
+      limit,
+      plantedCrops,
+      initialDate,
+      finalDate,
+      producerName,
+      farmName,
+      locationCities,
+    } = filters
 
-    const query = Producer.query()
+    const query = db.from('producers')
 
-    if (name) {
-      query.where('name', 'ilike', `%${name}%`)
+    if (producerName) {
+      query.where('producer_name', 'ilike', `%${producerName}%`)
     }
 
-    if (email) {
-      query.where('email', 'ilike', `%${email}%`)
+    if (farmName) {
+      query.where('farm_name', 'ilike', `%${farmName}%`)
     }
 
-    if (phone) {
-      query.where('phone', 'ilike', `%${phone}%`)
+    if (locationCities && locationCities.length > 0) {
+      query.whereIn('location_city_id', locationCities)
     }
 
-    if (locationStateId) {
-      query.where('location_state_id', locationStateId)
+    if (plantedCrops && plantedCrops.length > 0) {
+      query
+        .join('producer_crops', 'producers.id', 'producer_crops.producer_id')
+        .whereIn('producer_crops.crop_id', plantedCrops)
+        .select('producers.*')
     }
 
-    if (locationCityId) {
-      query.where('location_city_id', locationCityId)
+    if (initialDate && finalDate) {
+      query.whereBetween('created_at', [initialDate, finalDate])
     }
 
     return query.paginate(page, limit)
   }
 
-  async searchByCrop({ request }: HttpContext) {
-    const { page, limit, cropId } = request.all()
-
-    const query = Producer.query()
-
-    query
-      .join('producer_crops', 'producers.id', 'producer_crops.producer_id')
-      .where('producer_crops.crop_id', cropId)
-      .select('producers.*')
-
-    return query.paginate(page, limit)
+  /**
+   * Get the total number of farms grouped by crop.
+   * @returns The total number of farms grouped by crop.
+   */
+  async findGroupByCrop(): Promise<any> {
+    return db
+      .from('producers')
+      .join('planted_crops_producer', 'producers.id', 'planted_crops_producer.producer_id')
+      .join('planted_crops', 'planted_crops_producer.planted_crops_id', 'planted_crops.id')
+      .groupBy('planted_crops_producer.planted_crops_id', 'planted_crops.name')
+      .select(
+        'planted_crops_producer.planted_crops_id',
+        'planted_crops.name',
+        db.raw('count(planted_crops_producer.planted_crops_id) as total')
+      )
   }
 
-  async totalFarmsInquantity() {
-    return Producer.query().count('id')
+  /**
+   * Get the total number of farms.
+   * @returns The total number of farms.
+   */
+  async totalFarmsInquantity(): Promise<any> {
+    const result = await db.from('producers').count('id as total_farms')
+    return result[0]
   }
 
+  /**
+   * Get the total area of all farms.
+   * @returns The total area of all farms.
+   */
   async totalFarmsTnTotalArea() {
-    return Producer.query().sum('total_area')
+    return db.from('producers').sum('total_area as total_area')
   }
 
-  async totalFarmsByArableAreaAndVegetationArea() {
-    return Producer.query().sum('arable_area').sum('vegetation_area')
+  /**
+   * Get the total arable area and vegetation area of all farms.
+   * @returns The total arable area and vegetation area of all farms.
+   */
+  async totalFarmsByArableAreaAndVegetationArea(): Promise<any> {
+    return db
+      .from('producers')
+      .select(
+        db.raw('sum(arable_area) as arable_area'),
+        db.raw('sum(vegetation_area) as vegetation_area')
+      )
   }
 
-  async totalFarmsByLocationState() {
-    return Producer.query().select('location_state_id').count('id').groupBy('location_state_id')
-  }
-
-  async totalFarmsByLocationCity() {
-    return Producer.query().select('location_city_id').count('id').groupBy('location_city_id')
+  /**
+   * Get the total number of farms grouped by location state.
+   * @returns The total number of farms grouped by location state.
+   */
+  async totalFarmsByLocationState(): Promise<any> {
+    return db
+      .from('producers')
+      .join('location_cities', 'producers.location_city_id', 'location_cities.id')
+      .join('location_states', 'location_cities.location_state_id', 'location_states.id')
+      .select('location_state_id', 'location_states.full_name')
+      .count('producers.id')
+      .groupBy('location_state_id', 'location_states.full_name')
   }
 }

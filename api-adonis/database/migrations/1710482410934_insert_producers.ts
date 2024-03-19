@@ -1,7 +1,7 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'producer'
+  protected tableName = 'producers'
 
   async up() {
     await this.insertData([
@@ -12,6 +12,7 @@ export default class extends BaseSchema {
         total_area: 1000.0,
         arable_area: 500.0,
         vegetation_area: 500.0,
+        location_city_id: 2,
       },
       {
         document: '98765432109',
@@ -20,6 +21,7 @@ export default class extends BaseSchema {
         total_area: 1500.0,
         arable_area: 700.0,
         vegetation_area: 800.0,
+        location_city_id: 2,
       },
       {
         document: '56789012345',
@@ -28,6 +30,7 @@ export default class extends BaseSchema {
         total_area: 2000.0,
         arable_area: 1000.0,
         vegetation_area: 1000.0,
+        location_city_id: 8,
       },
       {
         document: '1357924680',
@@ -36,6 +39,7 @@ export default class extends BaseSchema {
         total_area: 1200.0,
         arable_area: 600.0,
         vegetation_area: 600.0,
+        location_city_id: 6,
       },
       {
         document: '2468013579',
@@ -44,6 +48,7 @@ export default class extends BaseSchema {
         total_area: 1800.0,
         arable_area: 900.0,
         vegetation_area: 900.0,
+        location_city_id: 2,
       },
       {
         document: '98765432100',
@@ -52,6 +57,7 @@ export default class extends BaseSchema {
         total_area: 2500.0,
         arable_area: 1300.0,
         vegetation_area: 1200.0,
+        location_city_id: 10,
       },
       {
         document: '12345678910',
@@ -60,6 +66,7 @@ export default class extends BaseSchema {
         total_area: 3000.0,
         arable_area: 1500.0,
         vegetation_area: 1500.0,
+        location_city_id: 6,
       },
       {
         document: '13579246801',
@@ -68,6 +75,7 @@ export default class extends BaseSchema {
         total_area: 2200.0,
         arable_area: 1100.0,
         vegetation_area: 1100.0,
+        location_city_id: 10,
       },
     ])
   }

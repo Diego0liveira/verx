@@ -1,7 +1,7 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'producer_planted_crops'
+  protected tableName = 'planted_crops_producer'
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
@@ -24,14 +24,12 @@ export default class extends BaseSchema {
         .inTable('planted_crops')
         .onDelete('CASCADE')
         .onUpdate('CASCADE')
-        .comment('The foreign key constraint for the planted crops')
       table
         .foreign('producer_id')
         .references('id')
-        .inTable('producer')
+        .inTable('producers')
         .onDelete('CASCADE')
         .onUpdate('CASCADE')
-        .comment('The foreign key constraint for the producer')
     })
   }
 

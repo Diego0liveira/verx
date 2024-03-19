@@ -1,20 +1,18 @@
 import ProducerService from '#services/producer_service'
-import { updatePostValidator } from '#validators/producer'
+import { createOrUpdatePostValidator } from '#validators/producer'
+import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 
-/**
- * Controller class for handling producer-related operations.
- */
+@inject()
 export default class ProducerController {
   constructor(private producerServicer: ProducerService) {}
 
   /**
    * Get all producers.
-   * @param ctx The HTTP context.
    * @returns A promise that resolves to the list of all producers.
    */
-  async index(ctx: HttpContext) {
-    return this.producerServicer.all()
+  async index() {
+    return this.producerServicer.index()
   }
 
   /**
@@ -23,7 +21,9 @@ export default class ProducerController {
    * @returns A promise that resolves to the newly created producer.
    */
   async store(ctx: HttpContext) {
-    return this.producerServicer.store(ctx)
+    const payload = ctx.request.all()
+    await createOrUpdatePostValidator.validate(payload)
+    return this.producerServicer.store(payload)
   }
 
   /**
@@ -32,7 +32,7 @@ export default class ProducerController {
    * @returns A promise that resolves to the specified producer.
    */
   async show(ctx: HttpContext) {
-    return this.producerServicer.show(ctx)
+    return this.producerServicer.show(ctx.request.param('id'))
   }
 
   /**
@@ -42,8 +42,8 @@ export default class ProducerController {
    */
   async update(ctx: HttpContext) {
     const payload = ctx.request.all()
-    await updatePostValidator.validate(payload)
-    return this.producerServicer.update(ctx)
+    await createOrUpdatePostValidator.validate(payload)
+    return this.producerServicer.update(payload, ctx.request.param('id'))
   }
 
   /**
@@ -52,7 +52,7 @@ export default class ProducerController {
    * @returns A promise that resolves when the producer is deleted.
    */
   async destroy(ctx: HttpContext) {
-    return this.producerServicer.destroy(ctx)
+    return this.producerServicer.destroy(ctx.request.param('id'))
   }
 
   /**
@@ -61,60 +61,48 @@ export default class ProducerController {
    * @returns A promise that resolves to the list of matching producers.
    */
   async search(ctx: HttpContext) {
-    return this.producerServicer.search(ctx)
+    const filters = ctx.request.all()
+
+    return this.producerServicer.search(filters)
   }
 
   /**
    * Search for producers by crop.
-   * @param ctx The HTTP context.
    * @returns A promise that resolves to the list of producers growing the specified crop.
    */
-  async searchByCrop(ctx: HttpContext) {
-    return this.producerServicer.searchByCrop(ctx)
+  async findGroupByCrop() {
+    return this.producerServicer.findGroupByCrop()
   }
 
   /**
    * Get the total number of farms and their quantity.
-   * @param ctx The HTTP context.
    * @returns A promise that resolves to the total number of farms and their quantity.
    */
-  async totalFarmsInquantity(ctx: HttpContext) {
+  async totalFarmsInquantity() {
     return this.producerServicer.totalFarmsInquantity()
   }
 
   /**
    * Get the total number of farms and their total area in tons.
-   * @param ctx The HTTP context.
    * @returns A promise that resolves to the total number of farms and their total area in tons.
    */
-  async totalFarmsTnTotalArea(ctx: HttpContext) {
+  async totalFarmsTnTotalArea() {
     return this.producerServicer.totalFarmsTnTotalArea()
   }
 
   /**
    * Get the total number of farms by arable area and vegetation area.
-   * @param ctx The HTTP context.
    * @returns A promise that resolves to the total number of farms by arable area and vegetation area.
    */
-  async totalFarmsByArableAreaAndVegetationArea(ctx: HttpContext) {
+  async totalFarmsByArableAreaAndVegetationArea() {
     return this.producerServicer.totalFarmsByArableAreaAndVegetationArea()
   }
 
   /**
    * Get the total number of farms by location state.
-   * @param ctx The HTTP context.
    * @returns A promise that resolves to the total number of farms by location state.
    */
-  async totalFarmsByLocationState(ctx: HttpContext) {
+  async totalFarmsByLocationState() {
     return this.producerServicer.totalFarmsByLocationState()
-  }
-
-  /**
-   * Get the total number of farms by location city.
-   * @param ctx The HTTP context.
-   * @returns A promise that resolves to the total number of farms by location city.
-   */
-  async totalFarmsByLocationCity(ctx: HttpContext) {
-    return this.producerServicer.totalFarmsByLocationCity()
   }
 }

@@ -13,5 +13,5 @@ export default class LocationCity extends BaseModel {
   declare locationStateId: number
 
   @belongsTo(() => LocationState)
-  declare state: relations.BelongsTo<typeof LocationState>
+  declare locationState: relations.BelongsTo<typeof LocationState>
 }
