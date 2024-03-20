@@ -1,0 +1,357 @@
+{
+	"info": {
+		"_postman_id": "0030f71c-5dd4-4cb5-b49b-af9a3342b89a",
+		"name": "Brain Agriculture",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2693422"
+	},
+	"item": [
+		{
+			"name": "producer",
+			"item": [
+				{
+					"name": "PDC001 - Create Producer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"document\": \"26896644000101\",\r\n  \"producerName\": \"João da Silva\",\r\n  \"farmName\": \"Fazenda Esperança\",\r\n  \"totalArea\": 100,\r\n  \"arableArea\": 80,\r\n  \"vegetationArea\": 10,\r\n  \"locationCityId\": 1,\r\n  \"plantedCrops\": [1, 2] \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}/producer",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"producer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PDC002 - Update Producer",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"document\": \"26896644000101\",\r\n  \"producerName\": \"João da Silva Editado\",\r\n  \"farmName\": \"Fazenda Esperança Editado\",\r\n  \"totalArea\": 100,\r\n  \"arableArea\": 80,\r\n  \"vegetationArea\": 20,\r\n  \"locationCityId\": 1,\r\n  \"plantedCrops\": [1, 2] \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}/producer/{{idProducer}}",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"producer",
+								"{{idProducer}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PDC003 - Delete Producer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}/producer/{{idProducer}}",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"producer",
+								"{{idProducer}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PDC004 - Get Producer By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}/producer/{{idProducer}}",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"producer",
+								"{{idProducer}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PDC005 - Search Producer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\": 1,\r\n    \"limit\": 5,\r\n    \"producerName\": null,\r\n    \"farmName\": null,\r\n    \"locationCities\": [],\r\n    \"plantedCrops\": [],\r\n    \"initialDate\": null,\r\n    \"finalDate\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}/producer/search",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"producer",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PDC006 - Find All Producer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}/producer",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"producer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "dashboard",
+			"item": [
+				{
+					"name": "DSB001- Get Farms Quantity",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}/producer/farms-quantity",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"producer",
+								"farms-quantity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DSB002 - Get Total Area",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}/producer/farms-area",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"producer",
+								"farms-area"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DSB003 - Get By Stage",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}/producer/farms-state",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"producer",
+								"farms-state"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DSB004 - Get By Culture",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}/producer/farms-area-culture",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"producer",
+								"farms-area-culture"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DSB005 - Get Use Of Only",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}/producer/farms-area-use",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"producer",
+								"farms-area-use"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "city",
+			"item": [
+				{
+					"name": "CT001 - Find Cities By State",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}/location-city/{{idState}}",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"location-city",
+								"{{idState}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CT002 - Find All Cities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}/location-city",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"location-city"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "state",
+			"item": [
+				{
+					"name": "PDC005 - Find All States",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}/location-state",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"location-state"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "planted crops",
+			"item": [
+				{
+					"name": "PC001 - Find All Planted Crops",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}/planted-crops",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"planted-crops"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
