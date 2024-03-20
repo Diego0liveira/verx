@@ -137,6 +137,46 @@ Aqui estão os contratos de API para os diferentes endpoints disponíveis:
 - Método: GET
 - Rota: /producer/{{idProducer}}
 - Descrição: Obtém os detalhes de um produtor rural específico.
+- Exemplo de Resposta:
+
+```sh
+{
+    "id": "1",
+    "document": "12345678901",
+    "producerName": "Produtor 1",
+    "farmName": "Fazenda 1",
+    "totalArea": "1000.00",
+    "arableArea": "500.00",
+    "vegetationArea": "500.00",
+    "createdAt": "2024-03-20T04:03:49.589+00:00",
+    "updatedAt": "2024-03-20T04:03:49.589+00:00",
+    "locationCityId": "2",
+    "plantedCrops": [
+        {
+            "id": "1",
+            "name": "Soja",
+            "createdAt": "2024-03-20T04:03:49.567+00:00",
+            "updatedAt": "2024-03-20T04:03:49.567+00:00"
+        },
+        {
+            "id": "2",
+            "name": "Milho",
+            "createdAt": "2024-03-20T04:03:49.567+00:00",
+            "updatedAt": "2024-03-20T04:03:49.567+00:00"
+        }
+    ],
+    "locationCity": {
+        "id": "2",
+        "name": "Campinas",
+        "locationStateId": "1",
+        "locationState": {
+            "id": "1",
+            "fullName": "São Paulo",
+            "shortName": "SP"
+        }
+    }
+}
+```
 
 ####  5. PDC005 - Pesquisar Produtores
 - Método: POST
@@ -157,10 +197,102 @@ Aqui estão os contratos de API para os diferentes endpoints disponíveis:
 }
 ```
 
+- Exemplo de Resposta:
+
+```sh
+{
+    "meta": {
+        "total": 8,
+        "perPage": 4,
+        "currentPage": 1,
+        "lastPage": 2,
+        "firstPage": 1,
+        "firstPageUrl": "/?page=1",
+        "lastPageUrl": "/?page=2",
+        "nextPageUrl": "/?page=2",
+        "previousPageUrl": null
+    },
+    "data": [
+        {
+            "id": "1",
+            "document": "12345678901",
+            "producer_name": "Produtor 1",
+            "farm_name": "Fazenda 1",
+            "total_area": "1000.00",
+            "arable_area": "500.00",
+            "vegetation_area": "500.00",
+            "created_at": "2024-03-20T04:03:49.589Z",
+            "updated_at": "2024-03-20T04:03:49.589Z",
+            "location_city_id": "2"
+        },
+        {
+            "id": "2",
+            "document": "98765432109",
+            "producer_name": "Produtor 2",
+            "farm_name": "Fazenda 2",
+            "total_area": "1500.00",
+            "arable_area": "700.00",
+            "vegetation_area": "800.00",
+            "created_at": "2024-03-20T04:03:49.589Z",
+            "updated_at": "2024-03-20T04:03:49.589Z",
+            "location_city_id": "2"
+        },
+    ]
+}
+```
+
 ####  6. PDC006 - Encontrar Todos os Produtores
 - Método: GET
 - Rota: /producer
 Descrição: Lista todos os produtores rurais.
+- Exemplo de Resposta:
+
+```sh
+[
+    {
+        "id": "8",
+        "document": "13579246801",
+        "producerName": "Produtor 8",
+        "farmName": "Fazenda 8",
+        "totalArea": "2200.00",
+        "arableArea": "1100.00",
+        "vegetationArea": "1100.00",
+        "createdAt": "2024-03-20T04:03:49.589+00:00",
+        "updatedAt": "2024-03-20T04:03:49.589+00:00",
+        "locationCityId": "10",
+        "plantedCrops": [
+            {
+                "id": "1",
+                "name": "Soja",
+                "createdAt": "2024-03-20T04:03:49.567+00:00",
+                "updatedAt": "2024-03-20T04:03:49.567+00:00"
+            },
+            {
+                "id": "3",
+                "name": "Algodão",
+                "createdAt": "2024-03-20T04:03:49.567+00:00",
+                "updatedAt": "2024-03-20T04:03:49.567+00:00"
+            },
+            {
+                "id": "4",
+                "name": "Café",
+                "createdAt": "2024-03-20T04:03:49.567+00:00",
+                "updatedAt": "2024-03-20T04:03:49.567+00:00"
+            }
+        ],
+        "locationCity": {
+            "id": "10",
+            "name": "Goiânia",
+            "locationStateId": "9",
+            "locationState": {
+                "id": "9",
+                "fullName": "Ceará",
+                "shortName": "CE"
+            }
+        }
+    },
+]
+```
 
 
 ### Dashboard
