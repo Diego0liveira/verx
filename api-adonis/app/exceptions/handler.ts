@@ -1,5 +1,7 @@
 import { ExceptionHandler, HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
+import { errors } from '@vinejs/vine'
+import NotFoundException from './not_found_exception.js'
 
 export default class HttpExceptionHandler extends ExceptionHandler {
   /**
@@ -13,6 +15,16 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * response to the client
    */
   async handle(error: unknown, ctx: HttpContext) {
+    if (error instanceof errors.E_VALIDATION_ERROR) {
+      ctx.response.status(400).send(error.messages)
+      return
+    }
+
+    if (error instanceof NotFoundException) {
+      ctx.response.status((error as any).status).send((error as any).message)
+      return
+    }
+
     return super.handle(error, ctx)
   }
 

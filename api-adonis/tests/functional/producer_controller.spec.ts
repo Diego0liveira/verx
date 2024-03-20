@@ -46,7 +46,7 @@ test.group('ProducerController', (group) => {
 
     const result = await client.post('/producer').json(payload)
 
-    result.assertStatus(200)
+    result.assertStatus(201)
 
     const body = result.body()
 
@@ -61,9 +61,44 @@ test.group('ProducerController', (group) => {
     assert.equal(body.locationCityId, payload.locationCityId)
   })
 
+  test('store - you should try to create a producer with an invalid CPF or CNPJ', async ({
+    client,
+  }) => {
+    const payload = {
+      document: '1234567890',
+      producerName: 'João da Silva',
+      farmName: 'Fazenda Esperança',
+      totalArea: 100,
+      arableArea: 80,
+      vegetationArea: 20,
+      locationCityId: 1,
+      plantedCrops: [1, 2],
+    }
+
+    const result = await client.post('/producer').json(payload)
+    result.assertStatus(400)
+  })
+
+  test('store - should try to create a producer in which the sum of arable area and vegetation is greater than the total area of the farm', async ({
+    client,
+  }) => {
+    const payload = {
+      document: '26896644000101',
+      producerName: 'João da Silva',
+      farmName: 'Fazenda Esperança',
+      totalArea: 100,
+      arableArea: 90,
+      vegetationArea: 20,
+      locationCityId: 1,
+      plantedCrops: [1, 2],
+    }
+
+    const result = await client.post('/producer').json(payload)
+    result.assertStatus(400)
+  })
+
   test('show - should return a specific producer', async ({ client, assert }) => {
     const producerId = 1
-
     const result = await client.get(`/producer/${producerId}`)
 
     result.assertStatus(200)
@@ -116,7 +151,7 @@ test.group('ProducerController', (group) => {
     assert.exists(body.vegetationArea)
     assert.exists(body.locationCityId)
   })
-  /*
+
   test('update - must try to update a specific producer which does not exist', async ({
     client,
   }) => {
@@ -134,10 +169,9 @@ test.group('ProducerController', (group) => {
     }
 
     const result = await client.put(`/producer/${producerId}`).json(payload)
-
     result.assertStatus(404)
   })
-*/
+
   test('search - should search for producers based on specific criteria', async ({
     client,
     assert,
@@ -162,18 +196,16 @@ test.group('ProducerController', (group) => {
   test('destroy - should delete a specific producer', async ({ client }) => {
     const producerId = 1
     const result = await client.delete(`/producer/${producerId}`)
-    result.assertStatus(200)
+    result.assertStatus(204)
   })
-  /*
+
   test('destroy - must try to delete a specific producer which does not exist', async ({
     client,
-    assert,
   }) => {
     const producerId = 9999999999
-    await client.delete(`/producer/${producerId}`)
-    assert.fail('Expected an exception to be thrown')
+    const result = await client.delete(`/producer/${producerId}`)
+    result.assertStatus(404)
   })
-  */
 
   test('findGroupByCrop - should return a list of producers growing the specified crop', async ({
     client,

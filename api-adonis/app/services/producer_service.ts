@@ -1,9 +1,8 @@
+import NotFoundException from '#exceptions/not_found_exception'
 import Producer from '#models/producer'
 import { inject } from '@adonisjs/core'
-import { Exception } from '@adonisjs/core/exceptions'
 import db from '@adonisjs/lucid/services/db'
 import { SimplePaginatorContract } from '@adonisjs/lucid/types/querybuilder'
-import { STATUS_CODES } from 'node:http'
 
 @inject()
 export default class ProducerService {
@@ -26,13 +25,13 @@ export default class ProducerService {
    * Get a specific producer by ID.
    * @param id - The ID of the producer.
    * @returns The producer object.
-   * @throws Exception if the producer is not found.
+   * @throws NotFoundException if the producer is not found.
    */
   async show(id: number): Promise<any> {
     const producer = await Producer.find(id)
 
     if (!producer) {
-      throw new Exception('Not found', { status: Number(STATUS_CODES.NOT_FOUND) })
+      throw new NotFoundException('Producer not found')
     }
 
     await producer.load('plantedCrops')
@@ -46,13 +45,13 @@ export default class ProducerService {
   /**
    * Delete a producer by ID.
    * @param id - The ID of the producer.
-   * @throws Exception if the producer is not found.
+   * @throws NotFoundException if the producer is not found.
    */
   async destroy(id: number) {
     const producer = await Producer.find(id)
 
     if (!producer) {
-      throw new Exception('Not found', { status: Number(STATUS_CODES.NOT_FOUND) })
+      throw new NotFoundException('Producer not found')
     }
 
     await producer.delete()
@@ -72,13 +71,13 @@ export default class ProducerService {
    * @param payload - The updated data for the producer.
    * @param id - The ID of the producer.
    * @returns The updated producer object.
-   * @throws Exception if the producer is not found.
+   * @throws NotFoundException if the producer is not found.
    */
   async update(payload: Partial<Producer>, id: number): Promise<Producer> {
     const producer = await Producer.find(id)
 
     if (!producer) {
-      throw new Exception('Not found', { status: Number(STATUS_CODES.NOT_FOUND) })
+      throw new NotFoundException('Producer not found')
     }
 
     producer.merge(payload)
@@ -164,7 +163,8 @@ export default class ProducerService {
    * @returns The total area of all farms.
    */
   async totalFarmsTnTotalArea() {
-    return db.from('producers').sum('total_area as total_area')
+    const result = await db.from('producers').sum('total_area as total_area')
+    return result[0]
   }
 
   /**
@@ -172,12 +172,14 @@ export default class ProducerService {
    * @returns The total arable area and vegetation area of all farms.
    */
   async totalFarmsByArableAreaAndVegetationArea(): Promise<any> {
-    return db
+    const result = await db
       .from('producers')
       .select(
         db.raw('sum(arable_area) as arable_area'),
         db.raw('sum(vegetation_area) as vegetation_area')
       )
+
+    return result[0]
   }
 
   /**

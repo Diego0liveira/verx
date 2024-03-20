@@ -23,6 +23,7 @@ export default class ProducerController {
   async store(ctx: HttpContext) {
     const payload = ctx.request.all()
     await createOrUpdatePostValidator.validate(payload)
+    ctx.response.status(201)
     return this.producerServicer.store(payload)
   }
 
@@ -43,7 +44,7 @@ export default class ProducerController {
   async update(ctx: HttpContext) {
     const payload = ctx.request.all()
     await createOrUpdatePostValidator.validate(payload)
-    return this.producerServicer.update(payload, ctx.request.param('id'))
+    return await this.producerServicer.update(payload, ctx.request.param('id'))
   }
 
   /**
@@ -55,9 +56,10 @@ export default class ProducerController {
     let result
     try {
       result = await this.producerServicer.destroy(ctx.request.param('id'))
+      ctx.response.status(204)
       return result
     } catch (error) {
-      return ctx.response.status(error.status).send(error.message)
+      return ctx.response.status(404).send('Producer not found')
     }
   }
 

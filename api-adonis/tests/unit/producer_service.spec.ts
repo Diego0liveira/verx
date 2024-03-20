@@ -1,6 +1,5 @@
 import db from '@adonisjs/lucid/services/db'
 import { test } from '@japa/runner'
-import { expect } from 'chai'
 import ProducerService from '../../app/services/producer_service.js'
 
 test.group('ProducerService', (group) => {
@@ -21,7 +20,7 @@ test.group('ProducerService', (group) => {
   })
 
   test('show - should return a specific producer by ID', async ({ assert }) => {
-    const producerId = 1
+    const producerId = 2
     const result = await producerService.show(producerId)
     assert.exists(result.id)
     assert.equal(Number(result.id), producerId)
@@ -31,9 +30,10 @@ test.group('ProducerService', (group) => {
     const producerId = 99999999
     try {
       await producerService.show(producerId)
+
       assert.fail('Expected an exception to be thrown')
     } catch (error) {
-      expect(error).to.have.property('message', 'Not found')
+      assert.equal(error.status, 404)
     }
   })
 
@@ -76,7 +76,7 @@ test.group('ProducerService', (group) => {
       await producerService.update(payload, producerId)
       assert.fail('Expected an exception to be thrown')
     } catch (error) {
-      expect(error).to.have.property('message', 'Not found')
+      assert.equal(error.status, 404)
     }
   })
 
@@ -92,7 +92,7 @@ test.group('ProducerService', (group) => {
       await producerService.destroy(producerId)
       assert.fail('Expected an exception to be thrown')
     } catch (error) {
-      expect(error).to.have.property('message', 'Not found')
+      assert.equal(error.status, 404)
     }
   })
 
