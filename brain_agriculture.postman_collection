@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "0030f71c-5dd4-4cb5-b49b-af9a3342b89a",
 		"name": "Brain Agriculture",
+		"description": "### Propósito:\n\nA API \"Brain Agriculture\" foi desenvolvida para fornecer funcionalidades relacionadas à gestão de produtores agrícolas, estatísticas de fazendas, informações sobre cidades e estados, e listagem de culturas plantadas. Seu propósito principal é facilitar o gerenciamento e a análise de dados relacionados à agricultura, fornecendo uma plataforma centralizada para acesso e manipulação dessas informações.\n\n### Funcionalidades Principais:\n\n1. Gestão de Produtores: Permite criar, atualizar, excluir, pesquisar e listar produtores agrícolas.\n2. Estatísticas de Fazendas: Fornece estatísticas sobre a quantidade de fazendas, área total das fazendas, distribuição por estágio, cultura plantada e uso exclusivo.\n3. Informações Geográficas: Possibilita encontrar cidades por estado, listar todas as cidades e obter uma lista de todos os estados.\n4. Listagem de Culturas Plantadas: Permite listar todas as culturas plantadas cadastradas na plataforma.\n    \n\n### Tecnologias Envolvidas:\n\n1. **Linguagem de Programação:** JavaScript (Node.js) - Utilizado para desenvolver o backend da API.\n2. **Framework Web:** AdonisJS 6 - Um framework web Node.js robusto, que oferece recursos como ORM integrado, sistema de roteamento, autenticação, entre outros.\n3. **Banco de Dados:** PostgreSQL - Um sistema de gerenciamento de banco de dados relacional poderoso e altamente escalável, utilizado para armazenar os dados dos produtores, fazendas, cidades, estados e culturas plantadas.\n4. **Postman:** Utilizado para testar os endpoints da API e documentá-los, como foi apresentado na coleção Postman fornecida anteriormente.\n5. **JSON:** O formato de intercâmbio de dados JSON é comumente utilizado para a troca de informações entre o cliente e o servidor.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "2693422"
 	},
@@ -33,7 +34,8 @@
 							"path": [
 								"producer"
 							]
-						}
+						},
+						"description": "- Este endpoint permite criar um novo produtor na plataforma."
 					},
 					"response": []
 				},
@@ -62,7 +64,8 @@
 								"producer",
 								"{{idProducer}}"
 							]
-						}
+						},
+						"description": "- Este endpoint permite atualizar as informações de um produtor existente."
 					},
 					"response": []
 				},
@@ -82,7 +85,8 @@
 								"producer",
 								"{{idProducer}}"
 							]
-						}
+						},
+						"description": "- Este endpoint permite excluir um produtor existente da plataforma."
 					},
 					"response": []
 				},
@@ -102,7 +106,8 @@
 								"producer",
 								"{{idProducer}}"
 							]
-						}
+						},
+						"description": "- Este endpoint permite obter informações detalhadas de um produtor com base no ID fornecido."
 					},
 					"response": []
 				},
@@ -131,7 +136,8 @@
 								"producer",
 								"search"
 							]
-						}
+						},
+						"description": "- Este endpoint permite pesquisar produtores com base em critérios específicos, como nome, fazenda, culturas plantadas, etc."
 					},
 					"response": []
 				},
@@ -150,11 +156,13 @@
 							"path": [
 								"producer"
 							]
-						}
+						},
+						"description": "- Este endpoint permite listar todos os produtores cadastrados na plataforma."
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "- **PDC001 - Create Producer**\n    \n    - **Comentários:** Este endpoint permite criar um novo produtor na plataforma.\n        \n    - **Documentação:**\n        \n        - **Método:** POST\n            \n        - **URL:** `{{protocol}}://{{host}}:{{port}}/producer`\n            \n        - jsonCopy code{ \"document\": \"26896644000101\", \"producerName\": \"João da Silva\", \"farmName\": \"Fazenda Esperança\", \"totalArea\": 100, \"arableArea\": 80, \"vegetationArea\": 10, \"locationCityId\": 1, \"plantedCrops\": \\[1, 2\\]}\n            \n        - **Resposta de Sucesso:** Status 200 OK com dados do produtor criado.\n            \n        - **Resposta de Erro:** Status 400 Bad Request se os dados enviados forem inválidos.\n            \n- **PDC002 - Update Producer**\n    \n    - **Comentários:** Este endpoint permite atualizar as informações de um produtor existente.\n        \n    - **Documentação:**\n        \n        - **Método:** PUT\n            \n        - **URL:** `{{protocol}}://{{host}}:{{port}}/producer/{{idProducer}}`\n            \n        - jsonCopy code{ \"document\": \"26896644000101\", \"producerName\": \"João da Silva Editado\", \"farmName\": \"Fazenda Esperança Editado\", \"totalArea\": 100, \"arableArea\": 80, \"vegetationArea\": 20, \"locationCityId\": 1, \"plantedCrops\": \\[1, 2\\]}\n            \n        - **Resposta de Sucesso:** Status 200 OK com dados do produtor atualizado.\n            \n        - **Resposta de Erro:** Status 404 Not Found se o produtor não for encontrado.\n            \n- **PDC003 - Delete Producer**\n    \n    - **Comentários:** Este endpoint permite excluir um produtor existente da plataforma.\n        \n    - **Documentação:**\n        \n        - **Método:** DELETE\n            \n        - **URL:** `{{protocol}}://{{host}}:{{port}}/producer/{{idProducer}}`\n            \n        - **Resposta de Sucesso:** Status 204 No Content se o produtor for excluído com sucesso.\n            \n        - **Resposta de Erro:** Status 404 Not Found se o produtor não for encontrado.\n            \n- **PDC004 - Get Producer By ID**\n    \n    - **Comentários:** Este endpoint permite obter informações detalhadas de um produtor com base no ID fornecido.\n        \n    - **Documentação:**\n        \n        - **Método:** GET\n            \n        - **URL:** `{{protocol}}://{{host}}:{{port}}/producer/{{idProducer}}`\n            \n        - **Resposta de Sucesso:** Status 200 OK com dados do produtor solicitado.\n            \n        - **Resposta de Erro:** Status 404 Not Found se o produtor não for encontrado.\n            \n- **PDC005 - Search Producer**\n    \n    - **Comentários:** Este endpoint permite pesquisar produtores com base em critérios específicos, como nome, fazenda, culturas plantadas, etc.\n        \n    - **Documentação:**\n        \n        - **Método:** POST\n            \n        - **URL:** `{{protocol}}://{{host}}:{{port}}/producer/search`\n            \n        - jsonCopy code{ \"page\": 1, \"limit\": 5, \"producerName\": null, \"farmName\": null, \"locationCities\": \\[\\], \"plantedCrops\": \\[\\], \"initialDate\": null, \"finalDate\": null}\n            \n        - **Resposta de Sucesso:** Status 200 OK com lista de produtores que correspondem aos critérios de pesquisa.\n            \n        - **Resposta de Erro:** Status 400 Bad Request se os critérios de pesquisa forem inválidos.\n            \n- **PDC006 - Find All Producer**\n    \n    - **Comentários:** Este endpoint permite listar todos os produtores cadastrados na plataforma.\n        \n    - **Documentação:**\n        \n        - **Método:** GET\n            \n        - **URL:** `{{protocol}}://{{host}}:{{port}}/producer`\n            \n        - **Resposta de Sucesso:** Status 200 OK com lista de todos os produtores cadastrados.\n            \n        - **Resposta de Erro:** Status 404 Not Found se não houver produtores cadastrados."
 		},
 		{
 			"name": "dashboard",
@@ -175,7 +183,8 @@
 								"producer",
 								"farms-quantity"
 							]
-						}
+						},
+						"description": "- Este endpoint retorna a quantidade de fazendas cadastradas na plataforma."
 					},
 					"response": []
 				},
@@ -195,7 +204,8 @@
 								"producer",
 								"farms-area"
 							]
-						}
+						},
+						"description": "- Este endpoint retorna a área total de todas as fazendas cadastradas."
 					},
 					"response": []
 				},
@@ -215,7 +225,8 @@
 								"producer",
 								"farms-state"
 							]
-						}
+						},
+						"description": "- Este endpoint retorna informações sobre as fazendas agrupadas por estágio."
 					},
 					"response": []
 				},
@@ -235,7 +246,8 @@
 								"producer",
 								"farms-area-culture"
 							]
-						}
+						},
+						"description": "- Este endpoint retorna informações sobre as fazendas agrupadas por cultura plantada."
 					},
 					"response": []
 				},
@@ -255,11 +267,13 @@
 								"producer",
 								"farms-area-use"
 							]
-						}
+						},
+						"description": "- Este endpoint retorna informações sobre o uso exclusivo das fazendas."
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "- **DSB001- Get Farms Quantity**\n    \n    - **Comentários:** Este endpoint retorna a quantidade de fazendas cadastradas na plataforma.\n        \n    - **Documentação:**\n        \n        - **Método:** GET\n            \n        - **URL:** `{{protocol}}://{{host}}:{{port}}/producer/farms-quantity`\n            \n        - **Resposta de Sucesso:** Status 200 OK com a quantidade de fazendas.\n            \n        - **Resposta de Erro:** Status 404 Not Found se não houver fazendas cadastradas.\n            \n- **DSB002 - Get Total Area**\n    \n    - **Comentários:** Este endpoint retorna a área total de todas as fazendas cadastradas.\n        \n    - **Documentação:**\n        \n        - **Método:** GET\n            \n        - **URL:** `{{protocol}}://{{host}}:{{port}}/producer/farms-area`\n            \n        - **Resposta de Sucesso:** Status 200 OK com a área total das fazendas.\n            \n        - **Resposta de Erro:** Status 404 Not Found se não houver fazendas cadastradas.\n            \n- **DSB003 - Get By Stage**\n    \n    - **Comentários:** Este endpoint retorna informações sobre as fazendas agrupadas por estágio.\n        \n    - **Documentação:**\n        \n        - **Método:** GET\n            \n        - **URL:** `{{protocol}}://{{host}}:{{port}}/producer/farms-state`\n            \n        - **Resposta de Sucesso:** Status 200 OK com os dados das fazendas agrupadas por estágio.\n            \n        - **Resposta de Erro:** Status 404 Not Found se não houver fazendas cadastradas.\n            \n- **DSB004 - Get By Culture**\n    \n    - **Comentários:** Este endpoint retorna informações sobre as fazendas agrupadas por cultura plantada.\n        \n    - **Documentação:**\n        \n        - **Método:** GET\n            \n        - **URL:** `{{protocol}}://{{host}}:{{port}}/producer/farms-area-culture`\n            \n        - **Resposta de Sucesso:** Status 200 OK com os dados das fazendas agrupadas por cultura.\n            \n        - **Resposta de Erro:** Status 404 Not Found se não houver fazendas cadastradas.\n            \n- **DSB005 - Get Use Of Only**\n    \n    - **Comentários:** Este endpoint retorna informações sobre o uso exclusivo das fazendas.\n        \n    - **Documentação:**\n        \n        - **Método:** GET\n            \n        - **URL:** `{{protocol}}://{{host}}:{{port}}/producer/farms-area-use`\n            \n        - **Resposta de Sucesso:** Status 200 OK com os dados sobre o uso exclusivo das fazendas.\n            \n        - **Resposta de Erro:** Status 404 Not Found se não houver fazendas cadastradas."
 		},
 		{
 			"name": "city",
@@ -280,7 +294,8 @@
 								"location-city",
 								"{{idState}}"
 							]
-						}
+						},
+						"description": "- Este endpoint retorna uma lista de cidades com base no estado fornecido."
 					},
 					"response": []
 				},
@@ -299,11 +314,13 @@
 							"path": [
 								"location-city"
 							]
-						}
+						},
+						"description": "- Este endpoint retorna uma lista de todas as cidades cadastradas na plataforma."
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "- **CT001 - Find Cities By State**\n    \n    - **Comentários:** Este endpoint retorna uma lista de cidades com base no estado fornecido.\n        \n    - **Documentação:**\n        \n        - **Método:** GET\n            \n        - **URL:** `{{protocol}}://{{host}}:{{port}}/location-city/{{idState}}`\n            \n        - **Resposta de Sucesso:** Status 200 OK com a lista de cidades para o estado fornecido.\n            \n        - **Resposta de Erro:** Status 404 Not Found se o estado ou as cidades correspondentes não forem encontrados.\n            \n- **CT002 - Find All Cities**\n    \n    - **Comentários:** Este endpoint retorna uma lista de todas as cidades cadastradas na plataforma.\n        \n    - **Documentação:**\n        \n        - **Método:** GET\n            \n        - **URL:** `{{protocol}}://{{host}}:{{port}}/location-city`\n            \n        - **Resposta de Sucesso:** Status 200 OK com a lista de todas as cidades cadastradas.\n            \n        - **Resposta de Erro:** Status 404 Not Found se não houver cidades cadastradas."
 		},
 		{
 			"name": "state",
@@ -323,11 +340,13 @@
 							"path": [
 								"location-state"
 							]
-						}
+						},
+						"description": "- Este endpoint retorna uma lista de todos os estados cadastrados na plataforma."
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "- **PDC005 - Find All States**\n    \n    - **Comentários:** Este endpoint retorna uma lista de todos os estados cadastrados na plataforma.\n        \n    - **Documentação:**\n        \n        - **Método:** GET\n            \n        - **URL:** `{{protocol}}://{{host}}:{{port}}/location-state`\n            \n        - **Resposta de Sucesso:** Status 200 OK com a lista de todos os estados cadastrados.\n            \n        - **Resposta de Erro:** Status 404 Not Found se não houver estados cadastrados."
 		},
 		{
 			"name": "planted crops",
@@ -347,11 +366,13 @@
 							"path": [
 								"planted-crops"
 							]
-						}
+						},
+						"description": "- Este endpoint retorna uma lista de todas as culturas plantadas cadastradas na plataforma."
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "- **PC001 - Find All Planted Crops**\n    - **Comentários:** Este endpoint retorna uma lista de todas as culturas plantadas cadastradas na plataforma.\n    - **Documentação:**\n        - **Método:** GET\n        - **URL:** `{{protocol}}://{{host}}:{{port}}/planted-crops`\n        - **Resposta de Sucesso:** Status 200 OK com a lista de todas as culturas plantadas cadastradas.\n        - **Resposta de Erro:** Status 404 Not Found se não houver culturas plantadas cadastradas."
 		}
 	]
 }
