@@ -52,7 +52,13 @@ export default class ProducerController {
    * @returns A promise that resolves when the producer is deleted.
    */
   async destroy(ctx: HttpContext) {
-    return this.producerServicer.destroy(ctx.request.param('id'))
+    let result
+    try {
+      result = await this.producerServicer.destroy(ctx.request.param('id'))
+      return result
+    } catch (error) {
+      return ctx.response.status(error.status).send(error.message)
+    }
   }
 
   /**

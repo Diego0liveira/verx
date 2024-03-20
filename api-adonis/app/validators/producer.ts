@@ -173,6 +173,5 @@ export const createOrUpdatePostValidator = vine.compile(
     arableArea: vine.number().min(0),
     vegetationArea: vine.number().min(0),
     locationCityId: vine.number().min(1),
-    locationStateId: vine.number().min(1),
   })
 )

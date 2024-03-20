@@ -11,7 +11,15 @@ export default class ProducerService {
    * Get all producers.
    */
   async index() {
-    return Producer.all()
+    const producers = await Producer.all()
+    for (const producer of producers) {
+      await producer.load('plantedCrops')
+      await producer.load('locationCity', (query) => {
+        query.preload('locationState')
+      })
+    }
+
+    return producers
   }
 
   /**
@@ -112,8 +120,9 @@ export default class ProducerService {
 
     if (plantedCrops && plantedCrops.length > 0) {
       query
-        .join('producer_crops', 'producers.id', 'producer_crops.producer_id')
-        .whereIn('producer_crops.crop_id', plantedCrops)
+        .join('planted_crops_producer', 'producers.id', 'planted_crops_producer.producer_id')
+        .join('planted_crops', 'planted_crops_producer.planted_crops_id', 'planted_crops.id')
+        .whereIn('planted_crops.id', plantedCrops)
         .select('producers.*')
     }
 
