@@ -21,13 +21,13 @@ Esta é uma API desenvolvida utilizando o framework Adonis.js na versão 6 e Pos
 1. Clone este repositório:
 
 ```sh
-git clone https://github.com/seuusuario/brain-agriculture-api.git
+git clone https://github.com/Diego0liveira/verx.git
 ```
 
 2. Clone este repositório:
 
 ```sh
-cd brain-agriculture-api
+cd api-adonis
 npm install
 ```
 
@@ -68,20 +68,18 @@ A API estará disponível em http://localhost:3333. Você pode utilizar ferramen
 ## Documentação da API
 
 ### Endpoints Disponíveis:
-- GET /producer: Lista todos os produtores rurais.
-- POST /producer: Cria um novo produtor rural.
-- POST /producer/search: Pesquisa produtores rurais por critérios específicos.
-- PUT /producer/:id: Atualiza as informações de um produtor rural específico.
-- GET /producer/:id: Retorna os detalhes de um produtor rural específico.
-- DELETE /producer/:id: Exclui um produtor rural específico.
-- GET /producer/farms-quantity: Retorna o total de fazendas cadastradas.
-- GET /producer/farms-area: Retorna a área total de todas as fazendas cadastradas.
-- GET /producer/farms-state: Retorna o total de fazendas agrupadas por estado.
-- GET /producer/farms-area-culture: Retorna a área agrícola plantada agrupada por cultura.
-- GET /producer/farms-area-use: Retorna a área utilizada para agricultura e vegetação em todas as fazendas.
-- GET /location-state: Lista todos os estados disponíveis.
-- GET /location-city: Lista todas as cidades disponíveis.
-- GET /location-city/:id: Retorna os detalhes de uma cidade específica.
-- GET /planted-crops: Lista todas as culturas plantadas disponíveis.
-
-
+- GET /producer => Lista todos os produtores rurais.
+- POST /producer => Cria um novo produtor rural.
+- POST /producer/search => Pesquisa produtores rurais por critérios específicos.
+- PUT /producer/:id => Atualiza as informações de um produtor rural específico.
+- GET /producer/:id => Retorna os detalhes de um produtor rural específico.
+- DELETE /producer/:id => Exclui um produtor rural específico.
+- GET /producer/farms-quantity => Retorna o total de fazendas cadastradas.
+- GET /producer/farms-area => Retorna a área total de todas as fazendas cadastradas.
+- GET /producer/farms-state => Retorna o total de fazendas agrupadas por estado.
+- GET /producer/farms-area-culture => Retorna a área agrícola plantada agrupada por cultura.
+- GET /producer/farms-area-use => Retorna a área utilizada para agricultura e vegetação em todas as fazendas.
+- GET /location-state => Lista todos os estados disponíveis.
+- GET /location-city => Lista todas as cidades disponíveis.
+- GET /location-city/:id => Retorna os detalhes de uma cidade específica.
+- GET /planted-crops => Lista todas as culturas plantadas disponíveis.
